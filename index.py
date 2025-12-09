@@ -22,13 +22,11 @@ def predict():
         if resp.status_code != 200:
             return jsonify({'error': 'Could not download image'}), 400
 
-        # Convert to numpy array and decode
         nparr = np.frombuffer(resp.content, np.uint8)
         img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
         if img is None:
             return jsonify({'error': 'Could not read image'}), 400
 
-        # Run YOLO model
         results = model(img, save=True)
         print(results)
 
